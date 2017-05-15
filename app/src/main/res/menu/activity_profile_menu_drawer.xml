@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_theoric"
+            android:icon="@drawable/ic_menu_theoric"
+            android:title="@string/nav_theoric" />
+        <item
+            android:id="@+id/nav_game"
+            android:icon="@drawable/ic_menu_gaming"
+            android:title="@string/nav_game" />
+        <item
+            android:id="@+id/nav_emergency"
+            android:icon="@drawable/ic_menu_emergency"
+            android:title="@string/nav_emergency" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_menu_profile"
+            android:title="@string/nav_profile" />
+    </group>
+
+    <item android:title="Opciones">
+        <menu>
+            <item
+                android:id="@+id/nav_certified"
+                android:icon="@drawable/ic_menu_certified"
+                android:title="Certificado" />
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_menu_settings"
+                android:title="Ajustes" />
+            <item
+                android:id="@+id/nav_exit"
+                android:icon="@drawable/ic_menu_logout"
+                android:title="Cerrar sesión" />
+        </menu>
+    </item>
+
+</menu>

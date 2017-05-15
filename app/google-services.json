@@ -1,0 +1,37 @@
+{
+  "project_info": {
+    "project_number": "380809961751",
+    "firebase_url": "https://lifekeeper-7c96a.firebaseio.com",
+    "project_id": "lifekeeper-7c96a",
+    "storage_bucket": "lifekeeper-7c96a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:380809961751:android:bfe055395b1e9037",
+        "android_client_info": {
+          "package_name": "com.camilomontoya.lifekeeper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgTtH4lFlcVbn2ssGXhAhS_KKc4HM0AU8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

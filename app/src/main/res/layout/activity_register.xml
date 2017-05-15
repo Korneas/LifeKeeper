@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_lifekeeper"
+    tools:context="com.camilomontoya.lifekeeper.RegisterActivity">
+
+    <ImageView
+        android:id="@+id/logo_log"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="89dp"
+        app:srcCompat="@drawable/logo_life"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/mail_reg"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo_log"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        android:backgroundTint="@color/colorBg"
+        android:ems="10"
+        android:hint="Correo"
+        android:inputType="textEmailAddress"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/colorInactive" />
+
+    <EditText
+        android:id="@+id/pass_reg"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/mail_reg"
+        android:layout_below="@+id/mail_reg"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/colorBg"
+        android:ems="10"
+        android:hint="Contraseña"
+        android:inputType="textPassword"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/colorInactive" />
+
+    <EditText
+        android:id="@+id/confirm_pass_reg"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/pass_reg"
+        android:layout_below="@+id/pass_reg"
+        android:layout_marginTop="18dp"
+        android:backgroundTint="@color/colorBg"
+        android:ems="10"
+        android:hint="Confirmar contraseña"
+        android:inputType="textPassword"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/colorInactive" />
+
+    <ImageButton
+        android:id="@+id/register"
+        android:layout_width="280dp"
+        android:layout_height="60dp"
+        android:background="#00000000"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/register_button"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/confirm_pass_reg"
+        android:layout_centerHorizontal="true" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

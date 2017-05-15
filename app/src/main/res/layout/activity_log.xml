@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_lifekeeper"
+    tools:context="com.camilomontoya.lifekeeper.LogActivity">
+
+    <ImageView
+        android:id="@+id/logo_log"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="89dp"
+        app:srcCompat="@drawable/logo_life"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/mail_log"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:backgroundTint="@color/colorBg"
+        android:ems="10"
+        android:hint="Correo"
+        android:inputType="textPersonName"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/colorInactive" />
+
+    <EditText
+        android:id="@+id/pass_log"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/mail_log"
+        android:layout_below="@+id/mail_log"
+        android:layout_marginTop="23dp"
+        android:backgroundTint="@color/colorBg"
+        android:ems="10"
+        android:hint="Contraseña"
+        android:inputType="textPassword"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/colorInactive" />
+
+    <TextView
+        android:id="@+id/no_tienes_cuenta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/addAccount"
+        android:layout_centerHorizontal="true"
+        android:text="¿No tienes cuenta?"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/addAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="22dp"
+        android:text="Crea una cuenta"
+        android:textColor="@color/colorBg"
+        android:textSize="14sp" />
+
+    <ImageButton
+        android:id="@+id/login_button"
+        android:layout_width="280dp"
+        android:layout_height="60dp"
+        android:background="#00000000"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/inicio_button"
+        android:layout_marginBottom="29dp"
+        android:layout_above="@+id/no_tienes_cuenta"
+        android:layout_centerHorizontal="true" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
+</RelativeLayout>
