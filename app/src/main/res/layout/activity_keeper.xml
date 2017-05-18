@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.camilomontoya.lifekeeper.KeeperActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_keeper"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:title="Escenario 1 - RCP"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ImageView
+        android:id="@+id/preview_keeper"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/thumb_rcp_vid" />
+
+    <TextView
+        android:id="@+id/title_keeper"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:paddingTop="15dp"
+        android:background="@color/colorBg"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:layout_below="@id/preview_keeper"
+        android:textSize="22dp"
+        android:text="Paro caríaco y RCP"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30dp"
+        android:text="La siguiente actividad es un vídeo interactivo que pone en práctica los conocimientos adquiridos en el apartado teórico para realizar RCP.\n\nSe requiere especial atención para relizar todas las acciones a continuación."
+        android:layout_below="@id/title_keeper"
+        android:textColor="#000000"
+        android:id="@+id/content_keeper" />
+
+    <ImageButton
+        android:id="@+id/begin_keeper"
+        android:layout_width="280dp"
+        android:layout_height="60dp"
+        android:background="#00000000"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/begin_button"
+        android:layout_below="@+id/content_keeper"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
+
+
+</RelativeLayout>

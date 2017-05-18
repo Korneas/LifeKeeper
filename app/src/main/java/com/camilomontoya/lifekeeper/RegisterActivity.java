@@ -17,10 +17,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText mail,pass, confirm;
+    private EditText name,mail,pass, confirm;
     private ImageButton register;
     private ProgressBar progressBar;
 
@@ -31,11 +33,13 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        name = (EditText) findViewById(R.id.name_reg);
         mail = (EditText) findViewById(R.id.mail_reg);
         pass = (EditText) findViewById(R.id.pass_reg);
         confirm = (EditText) findViewById(R.id.confirm_pass_reg);
 
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Catamaran-Light.ttf");
+        name.setTypeface(type);
         mail.setTypeface(type);
         pass.setTypeface(type);
         confirm.setTypeface(type);
@@ -49,11 +53,14 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final String mName = name.getText().toString();
                 String mMail = mail.getText().toString();
                 String mPass = pass.getText().toString();
                 String mConfirm = confirm.getText().toString();
 
-                if(TextUtils.isEmpty(mMail)){
+                if(TextUtils.isEmpty(mName)){
+                    aviso("Escribe tu nombre");
+                } else if(TextUtils.isEmpty(mMail)){
                     aviso("Escribe tu correo");
                 } else if(TextUtils.isEmpty(mPass)){
                     aviso("Escribe tu contraseña");

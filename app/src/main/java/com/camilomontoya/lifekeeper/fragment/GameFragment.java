@@ -1,32 +1,53 @@
 package com.camilomontoya.lifekeeper.fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.camilomontoya.lifekeeper.R;
+import com.camilomontoya.lifekeeper.other.ControlTipografia;
+import com.camilomontoya.lifekeeper.other.DividerItemDecoration;
+import com.camilomontoya.lifekeeper.other.EmergencyBanner;
+import com.camilomontoya.lifekeeper.other.EmergencyBannerAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link GameFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link GameFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private List<EmergencyBanner> banners = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private EmergencyBannerAdapter bannerAdapter;
+
+    private String[] bannerSubtitles= {
+            "Paro cardíaco - RCP",
+            "Ataque epiléptico",
+            "Ahogo por objeto ingerido",
+            "Hueso roto",
+            "Hemorragias externas"
+    };
+
+    private boolean[] bannerAvailabe = {
+            true,
+            false,
+            false,
+            false,
+            false
+    };
+
+    private Bitmap[] bannerMaps;
 
     private OnFragmentInteractionListener mListener;
 
@@ -34,38 +55,55 @@ public class GameFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment GameFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static GameFragment newInstance(String param1, String param2) {
-        GameFragment fragment = new GameFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_game, container, false);
+        View v = inflater.inflate(R.layout.fragment_game, container, false);
+
+        if(bannerMaps == null) {
+            bannerMaps = new Bitmap[5];
+            bannerMaps[0] = BitmapFactory.decodeResource(((AppCompatActivity) this.getActivity()).getResources(), R.drawable.thumb_rcp);
+            bannerMaps[1] = BitmapFactory.decodeResource(((AppCompatActivity) this.getActivity()).getResources(), R.drawable.thumb_epilepsia);
+            bannerMaps[2] = BitmapFactory.decodeResource(((AppCompatActivity) this.getActivity()).getResources(), R.drawable.thumb_ahogo);
+            bannerMaps[3] = BitmapFactory.decodeResource(((AppCompatActivity) this.getActivity()).getResources(), R.drawable.thumb_bone);
+            bannerMaps[4] = BitmapFactory.decodeResource(((AppCompatActivity) this.getActivity()).getResources(), R.drawable.thumb_blood);
+        }
+        recyclerView = (RecyclerView) v.findViewById(R.id.banners);
+
+        bannerAdapter = new EmergencyBannerAdapter(banners);
+
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity().getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this.getActivity(), LinearLayoutManager.VERTICAL));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(bannerAdapter);
+
+        if(banners.size()==0) {
+            for (int i = 0; i < bannerMaps.length; i++) {
+                addBanner(i);
+            }
+
+            ((AppCompatActivity) getActivity()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    bannerAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+
+        return v;
+    }
+
+    private void addBanner(int position){
+        final EmergencyBanner emergencyBanner = new EmergencyBanner("Escenario "+(position+1), bannerSubtitles[position], bannerAvailabe[position], bannerMaps[position]);
+        banners.add(emergencyBanner);
+        System.out.println("Cantidad de banners " + banners.size());
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -2,8 +2,11 @@ package com.camilomontoya.lifekeeper;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,29 +24,37 @@ import com.camilomontoya.lifekeeper.fragment.HomeFragment;
 import com.camilomontoya.lifekeeper.fragment.ProfileFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth auth;
     private TextView currentUser,currentMail;
 
+    private Toolbar toolbar;
+
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+
+    private int[] tabIcon = {
+            R.drawable.ic_menu_theoric,
+            R.drawable.ic_menu_gaming,
+            R.drawable.ic_menu_emergency,
+            R.drawable.ic_menu_profile
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         auth = FirebaseAuth.getInstance();
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -54,11 +65,98 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        currentUser = (TextView) findViewById(R.id.nav_user);
-        currentMail = (TextView) findViewById(R.id.nav_mail);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
 
-        //currentUser.setText(auth.getCurrentUser().getDisplayName());
-        //currentMail.setText("Damn");
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+        setupTabIcons();
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int pos = tab.getPosition();
+
+                switch (pos){
+                    case 0:
+                        toolbar.setTitle(getString(R.string.nav_theoric));
+                        break;
+                    case 1:
+                        toolbar.setTitle(getString(R.string.nav_game));
+                        break;
+                    case 2:
+                        toolbar.setTitle(getString(R.string.nav_emergency));
+                        break;
+                    case 3:
+                        toolbar.setTitle(getString(R.string.nav_profile));
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+            //currentUser = (TextView) findViewById(R.id.nav_user);
+            //currentMail = (TextView) findViewById(R.id.nav_mail);
+
+            //currentUser.setText(auth.getCurrentUser().getDisplayName());
+            //currentMail.setText(auth.getCurrentUser().getEmail());
+
+    }
+
+    private void setupViewPager(ViewPager viewPager){
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new HomeFragment(),"Teorico");
+        adapter.addFragment(new GameFragment(),"Practico");
+        adapter.addFragment(new EmergencyFragment(),"Emergencia");
+        adapter.addFragment(new ProfileFragment(),"Perfil");
+        viewPager.setAdapter(adapter);
+    }
+
+    private void setupTabIcons(){
+        for (int i = 0; i < tabIcon.length; i++) {
+            tabLayout.getTabAt(i).setIcon(tabIcon[i]);
+        }
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager){
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position){
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount(){
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment frag,String title){
+            mFragmentTitleList.add(title);
+            mFragmentList.add(frag);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position){
+            //return mFragmentTitleList.get(position);
+            return null;
+        }
+
+
     }
 
     @Override
@@ -77,19 +175,7 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_theoric) {
-            HomeFragment f = new HomeFragment();
-            getFragmentManager().beginTransaction().replace(R.id.frame, f).commit();
-        } else if (id == R.id.nav_game) {
-            GameFragment f = new GameFragment();
-            getFragmentManager().beginTransaction().replace(R.id.frame, f).commit();
-        } else if (id == R.id.nav_emergency) {
-            EmergencyFragment f = new EmergencyFragment();
-            getFragmentManager().beginTransaction().replace(R.id.frame, f).commit();
-        } else if (id == R.id.nav_profile) {
-            ProfileFragment f = new ProfileFragment();
-            getFragmentManager().beginTransaction().replace(R.id.frame, f).commit();
-        } else if (id == R.id.nav_certified) {
+        if (id == R.id.nav_certified) {
 
         } else if (id == R.id.nav_settings) {
 

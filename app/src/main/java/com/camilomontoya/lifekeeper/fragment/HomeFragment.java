@@ -1,32 +1,44 @@
 package com.camilomontoya.lifekeeper.fragment;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.camilomontoya.lifekeeper.R;
+import com.camilomontoya.lifekeeper.other.ControlTipografia;
+import com.camilomontoya.lifekeeper.other.DividerItemDecoration;
+import com.camilomontoya.lifekeeper.other.ReaderBanner;
+import com.camilomontoya.lifekeeper.other.ReaderBannerAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link HomeFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomeFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private List<ReaderBanner> readerBanners = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private ReaderBannerAdapter readerBannerAdapter;
+
+    private String[] readerSubtitles = {
+            "Paro cardíaco - RCP",
+            "Ataque epiléptico",
+            "Ahogo por objeto ingerido",
+            "Hueso roto",
+            "Hemorragias externas"
+    };
+
+    private Drawable[] readDraw;
 
     private OnFragmentInteractionListener mListener;
 
@@ -34,38 +46,60 @@ public class HomeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
+
+        if(readDraw==null){
+            readDraw = new Drawable[5];
+            readDraw[0] = this.getActivity().getDrawable(R.drawable.ic_reader);
+            readDraw[1] = this.getActivity().getDrawable(R.drawable.ic_reader);
+            readDraw[2] = this.getActivity().getDrawable(R.drawable.ic_reader);
+            readDraw[3] = this.getActivity().getDrawable(R.drawable.ic_reader);
+            readDraw[4] = this.getActivity().getDrawable(R.drawable.ic_reader);
+        }
+
+        recyclerView = (RecyclerView) v.findViewById(R.id.banners);
+
+        readerBannerAdapter = new ReaderBannerAdapter(readerBanners);
+
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity().getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this.getActivity(), LinearLayoutManager.VERTICAL));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(readerBannerAdapter);
+
+        ControlTipografia.getInstance().setTypeTitle(Typeface.createFromAsset(((AppCompatActivity) getActivity()).getAssets(), "fonts/Montserrat-Bold.ttf"));
+        ControlTipografia.getInstance().setTypeSubtitle(Typeface.createFromAsset(((AppCompatActivity) getActivity()).getAssets(), "fonts/Montserrat-Regular.ttf"));
+        ControlTipografia.getInstance().setTypeMsg(Typeface.createFromAsset(((AppCompatActivity) getActivity()).getAssets(), "fonts/Catamaran-Light.ttf"));
+
+        if(readerBanners.size()==0) {
+            for (int i = 0; i < readDraw.length; i++) {
+                addBanner(i);
+            }
+
+            ((AppCompatActivity) getActivity()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    readerBannerAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+
+        return v;
+    }
+
+    private void addBanner(int position){
+        final ReaderBanner readerBanner = new ReaderBanner("Escenario "+(position+1), readerSubtitles[position], readDraw[position]);
+        readerBanners.add(readerBanner);
+        System.out.println("Cantidad de readerBanners " + readerBanners.size());
     }
 
     // TODO: Rename method, update argument and hook method into UI event
